@@ -29,17 +29,20 @@ function App() {
     {
       id: 1,
       username: 'velopert',
-      email: 'public.velopert@gmail.com'
+      email: 'public.velopert@gmail.com',
+      active: true
     },
     {
       id: 2,
       username: 'tester',
-      email: 'tester@example.com'
+      email: 'tester@example.com',
+      active: false
     },
     {
       id: 3,
       username: 'liz',
-      email: 'liz@example.com'
+      email: 'liz@example.com',
+      active: false
     }
     // users 초기값
   ]);
@@ -66,8 +69,18 @@ function App() {
     // nextId는 현재값 +1을 한 값이 된다.
   };
 
-  const onRemove = () => {
+  const onRemove = id => {
+    setUsers(users.filter(user => user.id !== id));
+    // user.id 가 id 인 것을 제거
+    // = user.id 가 parameter로 일치하지 않는 원소만 추출해서 새로운 배열을 만듦
+  };
 
+  const onToggle = id => {
+    setUsers(
+      users.map(user => 
+        user.id === id ? {...user, active: !user.active} : user
+      )
+    );
   }
 
   return (
@@ -78,7 +91,7 @@ function App() {
         onChange={onChange}
         onCreate={onCreate}
       />
-      <UserList users={users} onRemove={onRemove} />
+      <UserList users={users} onRemove={ onRemove } onToggle={ onToggle }/>
     </>
   );
 }
